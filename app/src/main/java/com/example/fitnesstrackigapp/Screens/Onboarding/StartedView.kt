@@ -45,11 +45,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.fitnesstrackigapp.R
+import com.example.fitnesstrackigapp.Screen
 import kotlinx.coroutines.launch
  @Composable
 fun StartedPage(
-    navigateToOnBoarding: () -> Unit
+    navController: NavController
 ){
 
     Box(
@@ -115,7 +117,7 @@ fun StartedPage(
                 RoundedCornerButton(
                     text = "Get Started",
                     onClick = {
-                        navigateToOnBoarding()
+                        navController.navigate(Screen.SignUp.route)
                     }
                 )
             }
@@ -125,5 +127,5 @@ fun StartedPage(
 @Preview
 @Composable
 fun StartedPagePreview(){
-    StartedPage({})
+    //StartedPage({})
 }

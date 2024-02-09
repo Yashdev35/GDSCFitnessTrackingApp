@@ -52,8 +52,10 @@ android {
 }
 
 dependencies {
+    implementation("com.google.firebase:firebase-messaging-ktx:23.4.0")
+    implementation("com.google.firebase:firebase-auth:22.3.1")
     //this is the code for navigation between screens
-    val nav_version = "2.7.6"
+    val nav_version = "2.7.5"
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
@@ -63,7 +65,7 @@ dependencies {
     kapt("androidx.room:room-compiler:$room")
 
 
-    val compose_version = "1.5.0"
+    val compose_version = "1.6.0-alpha06"
     implementation("androidx.compose.ui:ui:$compose_version")
     implementation("androidx.compose.material:material:$compose_version")
     implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
@@ -77,12 +79,17 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
 
     implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx:21.1.0")
+    implementation("com.google.android.gms:play-services-auth:20.4.1")
+
+    implementation("com.google.firebase:firebase-messaging:23.4.0")
+
 
 
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    //implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
 
     //Network call to connect to internet and API
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -106,6 +113,22 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.activity:activity-compose:1.8.0")
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")

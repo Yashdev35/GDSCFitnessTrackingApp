@@ -46,7 +46,9 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.fitnesstrackigapp.R
+import com.example.fitnesstrackigapp.Screen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -86,7 +88,7 @@ fun OnBoardingPage(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingPages(
-    navToSignUp: () -> Unit
+    navController: NavController
 ){
     val onboardingPages = listOf(
         OnboardingPage(
@@ -156,7 +158,7 @@ val pagerState = rememberPagerState(0,0f) { 4 }
        }else{
            /*TODO*/
            //open the welcome screen
-              navToSignUp()
+              navController.navigate(Screen.ProfileSetup.route)
        }
     }
 },
@@ -178,5 +180,5 @@ modifier = Modifier.background(gradientPrimary)
 @Preview(showBackground = true)
 @Composable
 fun OnBoardingPagePreview(){
-    OnboardingPages({})
+    //OnboardingPages({})
 }

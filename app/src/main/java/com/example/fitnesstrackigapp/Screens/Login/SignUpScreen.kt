@@ -1,5 +1,6 @@
 package com.example.fitnesstrackigapp.Screens.Login
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,6 +29,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,15 +50,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.fitnesstrackigapp.R
+import com.example.fitnesstrackigapp.Screen
+import com.example.fitnesstrackigapp.data.UserCreds
+import com.example.fitnesstrackigapp.data.UserCredsState
+import com.example.fitnesstrackigapp.data.UserCredsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(
-    navigateToWel: (String) -> Unit
+    navController: NavController,
+    viewModel : UserCredsViewModel
 ){ var isCheckBoxChecked by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
     var name by remember { mutableStateOf("") }
+    var check by remember{ mutableStateOf<String?>(" ") }
     val context = LocalContext.current
     Box(
         modifier = Modifier
@@ -65,6 +74,7 @@ fun SignUpScreen(
         contentAlignment = Alignment.TopCenter
 
     ){
+        val userCredsList = viewModel.getUserCredsHis.collectAsState(initial = listOf())
          Column(
              modifier = Modifier
                  .fillMaxWidth()
@@ -74,6 +84,7 @@ fun SignUpScreen(
              verticalArrangement = Arrangement.Top,
                 horizontalAlignment = CenterHorizontally
          ) {
+
             Text(
                 text = "Hey there! \uD83D\uDC4B",
                 style = MaterialTheme.typography.headlineSmall,
@@ -91,6 +102,21 @@ fun SignUpScreen(
              TextField(value = name.toString(),
                  onValueChange = {/*TODO*/
                      name = it
+                      check =userCredsList.value.find { it.username== name }?.username
+                     if(check == null){
+                         viewModel.addUserCreds(UserCreds(
+                             username = name,
+                             gender = " ",
+                             age = 0.0f,
+                             steps = 0,
+                             bmi = 1.0f,
+//                             waterIntake = 0,
+//                             caloriesBurnt = 0.0f,
+
+                         ))
+                     }else{
+                         Toast.makeText(context, "User already exists,click icon without + to proceed", Toast.LENGTH_SHORT).show()
+                     }
                  },
                  modifier = Modifier
                      .fillMaxWidth()
@@ -138,17 +164,21 @@ fun SignUpScreen(
                          verticalAlignment = Alignment.CenterVertically
                      ) {
                          Image(
-                             painter = painterResource(id = R.drawable.icon_google),
+                             painter = painterResource(id = R.drawable.user_logo),
                              contentDescription = "Google",
                              modifier = Modifier
                                  .size(36.dp)
                                  .clickable(onClick = {
-                                     /*TODO*/
-                                     navigateToWel("yash")
+                                     if (isCheckBoxChecked){
+                                         val id = userCredsList.value.find { it.username== name }?.id?:0L
+                                            navController.navigate(Screen.Welcome.route +"/$id")
+                                     }else{
+                                         Toast.makeText(context, "Please enter your name to display on profile", Toast.LENGTH_SHORT).show()
+                                     }
                                  })
                          )
                          Image(
-                             painter = painterResource(id = R.drawable.icon_facebook),
+                             painter = painterResource(id = R.drawable.new_user_logo),
                              contentDescription = "Facebook",
                              modifier = Modifier
                                  .size(36.dp)
@@ -181,8 +211,8 @@ fun SignUpScreen(
 
 @Composable
 fun WelcomeScreen(
-    name: String,
-    navigateToProSet: () -> Unit
+    userCreds: UserCreds,
+    navController: NavController
 ){
     Column(
         modifier = Modifier
@@ -198,7 +228,7 @@ fun WelcomeScreen(
             modifier = Modifier.aspectRatio(1f).fillMaxWidth()
         )
         Text(
-            text = "Welcome, $name",
+            text = "Welcome, ${userCreds.username}! \uD83D\uDE0A",
             style = MaterialTheme.typography.headlineLarge.copy(
                 fontWeight = FontWeight.Bold
             ),
@@ -237,7 +267,7 @@ fun WelcomeScreen(
                 modifier = Modifier
                     .clickable(onClick = {
                         /*TODO*/
-                        navigateToProSet()
+                        navController.navigate(Screen.ProfileSetup.route)
                     })
                     .padding(start = 45.dp, end = 45.dp,bottom = 4.dp),
             )
@@ -250,6 +280,9 @@ fun WelcomeScreen(
 @Preview
 @Composable
 fun SignUpScreenPreview(){
-    SignUpScreen({})
-    //WelcomeScreen("yash",{})
+    val viewState = UserCredsState()
+    val viewModel = UserCredsViewModel()
+    val navController = NavController(LocalContext.current)
+    SignUpScreen(navController = navController,viewModel = viewModel)
+   // WelcomeScreen(userCreds = UserCreds(username = "User Name"), navController = NavController(LocalContext.current))
 }

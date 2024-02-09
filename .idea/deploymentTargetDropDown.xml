@@ -2,7 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="StartedPagePreview">
+      <entry key="CalisthenicsTrainingScreenPreview">
+        <State />
+      </entry>
+      <entry key="CardioWorkoutScreenPreview">
+        <State />
+      </entry>
+      <entry key="LandingPagePreview">
+        <State />
+      </entry>
+      <entry key="SignUpScreenPreview">
+        <State />
+      </entry>
+      <entry key="YogaWorkoutScreenPreview">
         <State />
       </entry>
       <entry key="app">

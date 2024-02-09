@@ -10,16 +10,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
+import com.example.fitnesstrackigapp.Screens.LandingPage
 import com.example.fitnesstrackigapp.Screens.Login.ProfileSet
 import com.example.fitnesstrackigapp.Screens.Login.SignUpScreen
 import com.example.fitnesstrackigapp.Screens.Onboarding.OnBoardingPage
 import com.example.fitnesstrackigapp.Screens.Onboarding.OnboardingPages
 import com.example.fitnesstrackigapp.Screens.Onboarding.StartedPage
+import com.example.fitnesstrackigapp.Screens.WorkoutScreens.CardioWorkoutScreen
+import com.example.fitnesstrackigapp.Screens.WorkoutScreens.WeightTrainingScreen
+import com.example.fitnesstrackigapp.data.UserCredsDatabase
+import com.example.fitnesstrackigapp.data.UserCredsViewModel
 import com.example.fitnesstrackigapp.ui.theme.FitnessTrackigAppTheme
+import java.time.LocalTime
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        scheduleDailyAlarm(applicationContext, 20,7,"its morbing time")
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
@@ -29,10 +39,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                  FitNav(navController = navController)
-                    //SignUpScreen()
-                    //ProfileSet()
-
+                  FitNav(navController)
                 }
             }
         }
